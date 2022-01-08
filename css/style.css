@@ -10,12 +10,14 @@
   margin: 0;
   box-sizing: border-box;
 }
-
+/* variables */
 :root {
   --colorPrimary: #135589;
   --colorSecondary: #2a93d5;
   --todoBgColor: #aed9da;
   --bodyColor: #edfafd;
+  --trashColor: #ff1100;
+  --checkColor: #14ad2d;
 }
 
 html {
@@ -25,8 +27,8 @@ html {
 body {
   font-family: "vazir";
   background-color: var(--bodyColor);
-  width: 100vw;
-  height: 40vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,7 +51,7 @@ header h1 {
   padding: 1rem 0;
   color: var(--colorPrimary);
 }
-
+/* form and select option */
 .form-container {
   display: flex;
 }
@@ -88,11 +90,23 @@ header h1 {
   margin-right: 1rem;
 }
 
-.form-container select option{
-    background-color: var(--todoBgColor);
-    color: var(--colorPrimary);
+.form-container select option {
+  background-color: var(--todoBgColor);
+  color: var(--colorPrimary);
 }
 
+/* fade animation */
+@keyframes fade {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+
+}
+
+/* todos */
 .todos .todo {
   display: flex;
   justify-content: space-between;
@@ -103,6 +117,11 @@ header h1 {
   margin-top: 1rem;
   font-size: 2rem;
   color: var(--colorPrimary);
+  animation: fade 1s;
+}
+
+.todos .todo > span{
+    cursor: pointer;
 }
 
 .todos .todo__icons span {
@@ -110,9 +129,9 @@ header h1 {
   cursor: pointer;
 }
 .fa-trash-alt {
-  color: #ff1100;
+  color: var(--trashColor);
 }
 
 .fa-check-square {
-  color: #14ad2d;
+  color: var(--checkColor);
 }
