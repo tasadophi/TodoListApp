@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TodoApp</title>
+    <link rel="stylesheet" href="css/style.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -13,5 +14,37 @@
       referrerpolicy="no-referrer"
     />
   </head>
-  <body></body>
+  <body>
+    <header>
+      <h1>اپلیکیشن تودولیست</h1>
+    </header>
+    <section class="container">
+      <div class="form-container">
+        <form>
+          <input type="text" />
+          <button class="add-todo">
+            <i class="fas fa-plus-circle"></i>
+          </button>
+        </form>
+        <select class="filter-todos">
+          <option>همه</option>
+          <option>انجام شده</option>
+          <option>انجام نشده</option>
+        </select>
+      </div>
+      <div class="todos">
+        <div class="todo">
+          <span>خرید وسایل خونه</span>
+          <div class="todo__icons">
+            <span>
+              <i class="fas fa-check-square"></i>
+            </span>
+            <span>
+              <i class="fas fa-trash-alt"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
 </html>

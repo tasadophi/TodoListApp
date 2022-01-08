@@ -11,12 +11,108 @@
   box-sizing: border-box;
 }
 
-:root{
-    --colorPrimary: #135589;
-    --colorSecondary: #2A93D5;
-    --bodyColor: #EDFAFD;
+:root {
+  --colorPrimary: #135589;
+  --colorSecondary: #2a93d5;
+  --todoBgColor: #aed9da;
+  --bodyColor: #edfafd;
+}
+
+html {
+  font-size: 62.5%;
 }
 
 body {
   font-family: "vazir";
+  background-color: var(--bodyColor);
+  width: 100vw;
+  height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+::selection {
+  background-color: var(--colorSecondary);
+  color: var(--bodyColor);
+}
+
+header h1 {
+  font-size: 3.5rem;
+  padding: 1rem 0;
+  color: var(--colorPrimary);
+}
+
+.form-container {
+  display: flex;
+}
+
+.form-container input,
+.form-container button {
+  border: none;
+  outline: none;
+  padding: 1.2rem 1rem;
+  font-size: 2rem;
+  background-color: #fff;
+  color: var(--colorPrimary);
+}
+
+.form-container input {
+  width: 35rem;
+  flex: 1;
+}
+
+.form-container button {
+  cursor: pointer;
+  transition: 0.2s linear;
+}
+
+.form-container button:hover {
+  background-color: var(--colorSecondary);
+  color: #fff;
+}
+
+.form-container select {
+  border: none;
+  outline: none;
+  font-size: 1.5rem;
+  background-color: #fff;
+  color: var(--colorPrimary);
+  margin-right: 1rem;
+}
+
+.form-container select option{
+    background-color: var(--todoBgColor);
+    color: var(--colorPrimary);
+}
+
+.todos .todo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 35rem;
+  background-color: var(--todoBgColor);
+  padding: 1.5rem 1rem;
+  margin-top: 1rem;
+  font-size: 2rem;
+  color: var(--colorPrimary);
+}
+
+.todos .todo__icons span {
+  margin: 0 0.5rem;
+  cursor: pointer;
+}
+.fa-trash-alt {
+  color: #ff1100;
+}
+
+.fa-check-square {
+  color: #14ad2d;
 }
