@@ -52,18 +52,16 @@ const filterTodosFunc = (e) => {
   if (filter === "all") renderTodos();
   else if (filter === "done") {
     const datas = JSON.parse(localStorage.getItem("datas")) || [];
-    const doneTodos = [];
-    datas.forEach((todo) => {
+    const doneTodos = datas.filter((todo) => {
       todo = JSON.parse(todo);
-      if (todo.done) doneTodos.push(JSON.stringify(todo));
+      return todo.done;
     });
     renderTodos(true, doneTodos);
   } else if (filter === "undone") {
     const datas = JSON.parse(localStorage.getItem("datas")) || [];
-    const undoneTodos = [];
-    datas.forEach((todo) => {
+    const undoneTodos = datas.filter((todo) => {
       todo = JSON.parse(todo);
-      if (!todo.done) undoneTodos.push(JSON.stringify(todo));
+      return !todo.done;
     });
     renderTodos(true, undoneTodos);
   }
@@ -139,11 +137,11 @@ const addTodoFunc = () => {
 // events
 addTodo.addEventListener("click", addTodoFunc);
 todoInput.addEventListener("keydown", (e) => {
-    if (e.keyCode === 13){
-        console.log(e)
-        e.preventDefault();
-        addTodo.click();
-    };
+  if (e.keyCode === 13) {
+    console.log(e);
+    e.preventDefault();
+    addTodo.click();
+  }
 });
 filterTodos.addEventListener("change", filterTodosFunc);
 
