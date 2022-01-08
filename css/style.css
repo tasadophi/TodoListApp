@@ -97,17 +97,17 @@ header h1 {
 
 /* fade animation */
 @keyframes fade {
-    from{
-        opacity: 0;
-    }
-    to{
-        opacity: 1;
-    }
-
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* todos */
 .todos .todo {
+  user-select: none;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -120,8 +120,12 @@ header h1 {
   animation: fade 1s;
 }
 
-.todos .todo > span{
-    cursor: pointer;
+.todos .todo > span {
+  cursor: pointer;
+}
+
+.done {
+  text-decoration: line-through;
 }
 
 .todos .todo__icons span {
