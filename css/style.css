@@ -1,0 +1,22 @@
+@font-face {
+  font-family: vazir;
+  src: url("/assets/font/vazir/Vazir.woff");
+}
+
+*,
+*::after,
+::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root{
+    --colorPrimary: #135589;
+    --colorSecondary: #2A93D5;
+    --bodyColor: #EDFAFD;
+}
+
+body {
+  font-family: "vazir";
+}
