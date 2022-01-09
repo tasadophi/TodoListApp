@@ -8,63 +8,82 @@ const todos = document.querySelector(".todos");
 
 const createTodo = (content) => {
   const todoObject = JSON.parse(content);
-  const todo = document.createElement("div");
-  const todoIcons = document.createElement("div");
-  const todoContent = document.createElement("span");
-  const todoCheck = document.createElement("span");
-  const todoTrash = document.createElement("span");
-  const todoCheckIcon = document.createElement("i");
-  const todoTrashIcon = document.createElement("i");
-  todoContent.textContent = todoObject.content;
-  if (todoObject.done) todoContent.classList.add("done");
-  todoContent.addEventListener("click", checkTodo);
-  todoCheckIcon.classList.add("fas", "fa-check-square");
-  todoTrashIcon.classList.add("fas", "fa-trash-alt");
-  todoCheck.appendChild(todoCheckIcon);
-  todoTrash.appendChild(todoTrashIcon);
-  todoTrash.addEventListener("click", removeTodo);
-  todoCheck.addEventListener("click", checkTodo);
-  todoIcons.append(todoCheck, todoTrash);
-  todoIcons.classList.add("todo__icons");
-  todo.append(todoContent, todoIcons);
-  todo.classList.add("todo");
-  todos.appendChild(todo);
+  const todoContent = todoObject.content;
+  const todoDone = todoObject.done;
+  const todo = `<span>${todoContent}</span><div class="todo__icons"><span><i class="fas fa-check-square"></i></span><span><i class="fas fa-trash-alt"></i></span></div>`;
+  const todoEl = document.createElement("div");
+  todoEl.innerHTML = todo;
+  todoEl.classList.add("todo");
+  [...todoEl.childNodes][0].addEventListener("click", checkTodo);
+  [...todoEl.childNodes][1].childNodes[0].addEventListener("click", checkTodo);
+  [...todoEl.childNodes][1].childNodes[1].addEventListener("click", removeTodo);
+  if (todoDone) todoEl.classList.add("done");
+  todos.appendChild(todoEl);
 };
 
 const renderTodos = (filter = false, filterArrey = false) => {
-  todos.innerHTML = "";
   if (filter) {
     if (filterArrey.length > 0) {
-      filterArrey.forEach((todo) => createTodo(todo));
+      filterArrey.forEach((todo) => todo.style.display = "flex");
     }
     return;
   }
+  todos.innerHTML = "";
   const datas = JSON.parse(localStorage.getItem("datas")) || [];
   if (datas.length > 0) {
-    datas.forEach((todo) => createTodo(todo, true));
+    datas.forEach((todo) => createTodo(todo));
   }
 };
 
 const filterTodosFunc = (e) => {
-  let filter = e.target.value;
-  filter =
-    filter === "همه" ? "all" : filter === "انجام شده" ? "done" : "undone";
-  if (filter === "all") renderTodos();
+  const filter = e.target.value;
+  const datas = [...todos.childNodes];
+  datas.forEach((todo) => (todo.style.display = "none"));
+  let filterTodos;
+  if (filter === "all") renderTodos(true, datas);
   else if (filter === "done") {
-    const datas = JSON.parse(localStorage.getItem("datas")) || [];
-    const doneTodos = datas.filter((todo) => {
-      todo = JSON.parse(todo);
-      return todo.done;
+    filterTodos = datas.filter((todo) => {
+      return todo.classList.contains("done");
     });
-    renderTodos(true, doneTodos);
   } else if (filter === "undone") {
-    const datas = JSON.parse(localStorage.getItem("datas")) || [];
-    const undoneTodos = datas.filter((todo) => {
-      todo = JSON.parse(todo);
-      return !todo.done;
+    filterTodos = datas.filter((todo) => {
+      return !todo.classList.contains("done");
     });
-    renderTodos(true, undoneTodos);
   }
+  renderTodos(true, filterTodos);
+};
+
+
+const checkTodo = (e) => {
+  let todoEl;
+  if (e.target.nodeName !== "SPAN")
+    todoEl = e.target.parentElement.parentElement.parentElement;
+  else todoEl = e.target.parentElement;
+  todoEl.classList.toggle("done");
+  const datas = JSON.parse(localStorage.getItem("datas")) || [];
+  let todoObject;
+  let todoIndex;
+  datas.forEach((todo, index) => {
+    todo = JSON.parse(todo);
+    if (todo.content === todoEl.textContent) {
+      todoObject = todo;
+      todoIndex = index;
+      return;
+    }
+  });
+  datas.splice(todoIndex, 1);
+  if (filterTodos.value == "done") {
+    todoObject.done = false;
+    todoEl.style.display = "none";
+  } else if (filterTodos.value == "undone") {
+    todoObject.done = true;
+    todoEl.style.display = "none";
+  } else {
+    if (todoObject.done) todoObject.done = false;
+    else todoObject.done = true;
+  }
+  datas.push(JSON.stringify(todoObject));
+  localStorage.setItem("datas", JSON.stringify(datas));
 };
 
 const addToStorage = (content) => {
@@ -80,51 +99,6 @@ const addToStorage = (content) => {
   localStorage.setItem("datas", JSON.stringify(datas));
 };
 
-const removeFromStorage = (content) => {
-  const datas = JSON.parse(localStorage.getItem("datas")) || [];
-  datas.splice(datas.indexOf(content), 1);
-  localStorage.setItem("datas", JSON.stringify(datas));
-};
-
-const checkTodo = (e) => {
-  let todoContentEl;
-  if (e.target.nodeName !== "SPAN")
-    todoContentEl = e.target.parentElement.parentElement.previousElementSibling;
-  else todoContentEl = e.target;
-  todoContentEl.classList.toggle("done");
-  let datas = JSON.parse(localStorage.getItem("datas")) || [];
-  let todoObject;
-  let todoIndex;
-  datas.forEach((todo, index) => {
-    todo = JSON.parse(todo);
-    if (todo.content === todoContentEl.textContent) {
-      todoObject = todo;
-      todoIndex = index;
-      return;
-    }
-  });
-  datas.splice(todoIndex, 1);
-  if (filterTodos.value == "انجام شده") {
-    todoObject.done = false;
-    todoContentEl.parentElement.remove();
-  } else if (filterTodos.value == "انجام نشده") {
-    todoObject.done = true;
-    todoContentEl.parentElement.remove();
-  } else {
-    if (todoObject.done) todoObject.done = false;
-    else todoObject.done = true;
-  }
-  datas.push(JSON.stringify(todoObject));
-  localStorage.setItem("datas", JSON.stringify(datas));
-};
-
-const removeTodo = (e) => {
-  const todo = e.target.parentElement.parentElement.parentElement;
-  const todoContentEl =
-    e.target.parentElement.parentElement.previousElementSibling;
-  removeFromStorage(todoContentEl.innerText);
-  todo.remove();
-};
 
 const addTodoFunc = () => {
   if (todoInput.value);
@@ -134,6 +108,34 @@ const addTodoFunc = () => {
   addToStorage(todoInput.value);
   todoInput.value = "";
 };
+
+
+const removeFromStorage = (content) => {
+  const datas = JSON.parse(localStorage.getItem("datas")) || [];
+  let todoObject;
+  let todoIndex;
+  datas.forEach((todo, index) => {
+    todo = JSON.parse(todo);
+    if (todo.content === content){
+      todoObject = todo;
+      todoIndex = index;
+      return;
+    }
+  })
+  datas.splice(todoIndex, 1);
+  localStorage.setItem("datas", JSON.stringify(datas));
+};
+
+
+const removeTodo = (e) => {
+  const todo = e.target.parentElement.parentElement.parentElement;
+  const todoContentEl =
+    e.target.parentElement.parentElement.previousElementSibling;
+  removeFromStorage(todoContentEl.innerText);
+  todo.remove();
+};
+
+
 // events
 addTodo.addEventListener("click", addTodoFunc);
 todoInput.addEventListener("keydown", (e) => {
