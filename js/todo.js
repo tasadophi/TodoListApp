@@ -106,10 +106,10 @@ const checkTodo = (e) => {
   datas.splice(todoIndex, 1);
   if (filterTodos.value == "انجام شده") {
     todoObject.done = false;
-    e.target.parentElement.remove();
+    todoContentEl.parentElement.remove();
   } else if (filterTodos.value == "انجام نشده") {
     todoObject.done = true;
-    e.target.parentElement.remove();
+    todoContentEl.parentElement.remove();
   } else {
     if (todoObject.done) todoObject.done = false;
     else todoObject.done = true;
@@ -138,7 +138,6 @@ const addTodoFunc = () => {
 addTodo.addEventListener("click", addTodoFunc);
 todoInput.addEventListener("keydown", (e) => {
   if (e.keyCode === 13) {
-    console.log(e);
     e.preventDefault();
     addTodo.click();
   }
