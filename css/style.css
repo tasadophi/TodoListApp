@@ -15,7 +15,7 @@
   --colorPrimary: #135589;
   --colorSecondary: #2a93d5;
   --todoBgColor: #aed9da;
-  --bodyColor: #edfafd;
+  --bodyColor: #d0f2fa;
   --trashColor: #ff1100;
   --checkColor: #14ad2d;
 }
@@ -64,11 +64,11 @@ header h1 {
   font-size: 2rem;
   background-color: #fff;
   color: var(--colorPrimary);
+  border-radius: 8px;
 }
 
 .form-container input {
-  width: 35rem;
-  flex: 1;
+  width: 30rem;
 }
 
 .form-container button {
@@ -87,6 +87,7 @@ header h1 {
   font-size: 1.5rem;
   background-color: #fff;
   color: var(--colorPrimary);
+  border-radius: 8px;
   margin-right: 1rem;
 }
 
@@ -111,12 +112,13 @@ header h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 35rem;
+  width: 30rem;
   background-color: var(--todoBgColor);
   padding: 1.5rem 1rem;
   margin-top: 1rem;
   font-size: 2rem;
   color: var(--colorPrimary);
+  border-radius: 8px;
   animation: fade 1s;
 }
 
@@ -139,4 +141,20 @@ header h1 {
 
 .fa-check-square {
   color: var(--checkColor);
+}
+
+@media screen and (max-width: 425px) {
+  .form-container {
+    flex-direction: column;
+  }
+  .form-container input, .todos .todo {
+    width: 25rem;
+  }
+  .form-container select{
+    height: 50px;
+    align-self: flex-start;
+    margin-right: 0;
+    margin-bottom: 1rem;
+    order: -1;
+  }
 }
